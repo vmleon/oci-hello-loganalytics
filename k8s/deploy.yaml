@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-deployment
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: api-deployment
+    spec:
+      containers:
+      - image: fra.ocir.io/fruktknlrefu/hello-api:latest
+        name: api-deployment
+        envFrom:
+        - configMapRef:
+            name: api-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+status: {}

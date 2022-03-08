@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{include "hello-api.fullname" .}}
+data:
+  NODE_ENV: production
+  PORT: '3000'

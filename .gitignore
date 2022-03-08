@@ -1,4 +1,5 @@
 generated/
+.vscode
 
 # Logs
 logs

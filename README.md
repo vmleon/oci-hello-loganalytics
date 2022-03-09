@@ -21,7 +21,7 @@ Login the image registry with `podman login fra.ocir.io`. User is TENANCY_NAMESP
 
 Push the image `podman push fra.ocir.io/TENANCY_NAMESPACE/hello-api:latest`.
 
-## Provision IaaS
+## Provision IaaS/Helm
 
 Inside the folder `deploy` run:
 
@@ -35,14 +35,10 @@ Then run the terraform commands:
 
 Answer yes to confirm in `plan` and `apply`.
 
-After you deploy successfully your Kubernetes Cluster, run the export on the terraform output to configure kubectl.
+After you deploy successfully your Kubernetes Cluster, run the export on the terraform output to configure kubectl and helm.
 
-## Deploy K8s manifest
+## Manual Test Application
 
-Inside `k8s` folder.
-
-Apply manifest files `kubectl apply -f ./`
-
-Finally you can create a port-forwarding with `kubectl port-forward deployment.apps/api-deployment 3000`
+Follow the steps on the `helm get notes hello-api` to port-forwarding on localhost.
 
 Test the application with `curl -s localhost:3000/hello`.

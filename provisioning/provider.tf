@@ -13,6 +13,9 @@ variable "private_key_path" {
 variable "compartment_ocid" {
 }
 
+variable "log_analytics_log_group_id" {
+}
+
 variable "region" {
   default = "eu-frankfurt-1"
 }

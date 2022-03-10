@@ -7,6 +7,31 @@ This project is composed of:
 - Terraform scripts for Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
 
+
+## Logging Analytics
+
+> Requirement: Logging Analytics enabled on the OCI Region.
+
+### Create Logging Analytics Log Group
+
+Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+
+On the left side menu, click on **Log Groups**.
+
+Click **Create Log Group**.
+
+Set the name `LA OKE Monitoring` and create.
+
+Click on the new Log Group and copy its `OCID`.
+
+### Enable access to Log Group with Instance Principal
+
+Create a Dynamic Group called `dynamic-group-oke-node-pool` that matches OKE node pool workers with matching rule `instance.compartment.id = '<compartment_ocid>'`
+
+Create a policy to allow access to Log Group with the following rule:
+
+`Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <Logging Analytics LogGroup's compartment_name>`
+
 ## Build the app (optional)
 
 >You can use the following image publicly available `fra.ocir.io/fruktknlrefu/hello-api:latest` or build your own image. Jump to next section if you are reusing the public image.

@@ -27,6 +27,10 @@ data "oci_identity_availability_domains" "ADs" {
   compartment_id = var.tenancy_ocid
 }
 
+data "oci_objectstorage_namespace" "tenancy_namespace" {
+    compartment_id = var.tenancy_ocid
+}
+
 resource "random_string" "deploy_id" {
   length  = 4
   special = false

@@ -33,3 +33,12 @@ provider "helm" {
     config_path = "${path.module}/generated/kubeconfig"
   }
 }
+
+terraform {
+  required_providers {
+    oci = {
+      source = "oracle/oci"
+      version = "~> 4.0"
+    }
+  }
+}

@@ -6,7 +6,8 @@ This project is composed of:
 - Hello World API app in Node.js (no db connectivity)
 - Terraform scripts for Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
-
+- **Work in Progress**: Query the logs in Logging Analytics
+- **Work in Progress**: Ingress controller with Load Balancer
 
 ## Logging Analytics
 
@@ -50,7 +51,9 @@ Push the image `podman push fra.ocir.io/TENANCY_NAMESPACE/hello-api:latest`.
 
 Inside the folder `provisioning` run:
 
-Copy the terraform variables `cp terraform.tfvars_template terraform.tfvars` and put your values in `terraform.tfvars`.
+Copy the terraform variables `cp terraform.tfvars_template terraform.tfvars`.
+
+Put your credential values in `terraform.tfvars`.
 
 Then run the terraform commands:
 
@@ -60,7 +63,7 @@ Then run the terraform commands:
 
 Answer yes to confirm the `plan` and the `apply`.
 
-After you deploy successfully your Kubernetes Cluster, run the export on the terraform output to configure kubectl and helm.
+After you deploy successfully your Kubernetes Cluster, run the `export KUBECONFIG` pointing to the generated `kubeconfig` file to configure kubectl and helm.
 
 ## Manual Test Application
 
@@ -68,9 +71,13 @@ List the helm release with `helm list`.
 
 Follow the steps on the `helm get notes hello-api` to port-forwarding on localhost.
 
+> WIP: Include ingress-nginx-controller
+
 Test the application with `curl -s localhost:3000/hello`.
 
-## Notes
+## Check logs in Logging Analytics
+
+> WIP: Entities? Sources? on Logging Analytics?
 
 Create Entity
  - Entity Type: `Kubernetes Cluster`

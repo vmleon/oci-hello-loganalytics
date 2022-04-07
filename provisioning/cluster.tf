@@ -101,7 +101,7 @@ output "deployed_oke_kubernetes_version" {
   value = (var.k8s_version == "Latest") ? local.cluster_k8s_latest_version : var.k8s_version
 }
 output "kubeconfig_for_kubectl" {
-  value       = "export KUBECONFIG=./generated/kubeconfig"
+  value       = "export KUBECONFIG=$(pwd)/generated/kubeconfig"
   description = "If using Terraform locally, this command set KUBECONFIG environment variable to run kubectl locally"
 }
 ### Important Security Notice ###

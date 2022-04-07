@@ -69,3 +69,15 @@ List the helm release with `helm list`.
 Follow the steps on the `helm get notes hello-api` to port-forwarding on localhost.
 
 Test the application with `curl -s localhost:3000/hello`.
+
+## Notes
+
+Create Entity
+ - Entity Type: `Kubernetes Cluster`
+ - Name: `dev-oke-entity`
+ - Compartment: Same as Log Group
+
+Search:
+```
+'Log Source' = 'Kubernetes Container Generic Logs' | stats count as logrecords by 'Log Source' | sort -logrecords
+```

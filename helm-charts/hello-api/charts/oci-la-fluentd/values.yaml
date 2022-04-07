@@ -11,7 +11,7 @@ image:
    # Make sure the secret is in the same namespace as defined above.
    imagePullSecrets:
    # Replace this value with actual docker image url
-   url:
+   url: fra.ocir.io/fruktknlrefu/fluentd_oci_la:20220307
    # Replace this value with desired value for image pull policy
    imagePullPolicy: Always
 # Logging Analytics Namespace

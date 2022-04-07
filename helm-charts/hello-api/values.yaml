@@ -8,7 +8,7 @@ image:
   repository: fra.ocir.io/fruktknlrefu/hello-api
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -86,3 +86,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+oci-la-fluentd:
+  ociLANamespace: ""
+  ociLALogGroupID: ""
+  kubernetesClusterID: ""
+  kubernetesClusterName: ""

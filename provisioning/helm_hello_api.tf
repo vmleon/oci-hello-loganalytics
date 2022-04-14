@@ -10,7 +10,7 @@ resource "helm_release" "hello-api" {
 
   set {
     name  = "oci-la-fluentd.ociLALogGroupID"
-    value = var.log_analytics_log_group_id
+    value = oci_log_analytics_log_analytics_log_group.logan_log_group.id
   }
 
   set {

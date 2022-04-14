@@ -1,0 +1,39 @@
+title: OCI Hello Logging Analytics
+description: Explore how to use OCI Logging Analytics with Kubernetes
+informationalText: This stack deploy a Kubernetes Cluster, Fluentd, Node.js App, and create Logging Analytics 
+
+schemaVersion: 1.1.0
+version: "20220414"
+
+logoUrl: https://pbs.twimg.com/profile_images/1108568611113689088/9bfcUA9t_400x400.png
+
+locale: "en"
+variableGroups:
+  - title: "Basic Hidden"
+    variables:
+    - tenancy_ocid
+    - current_user_ocid
+    - region
+    visible: false
+  - title: "General Configuration"
+    variables:
+    - compartment_ocid
+  - title: "Compute Details"
+    variables:
+      - ${cluster_name}
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "The compartment in which to create the stack"
+    required: true
+  cluster_name:
+    type: string
+    minLength: 3
+    maxLength: 255
+    pattern: "^[a-z][a-zA-Z0-9]+$"
+    title: "Cluster Name"
+    description: "Enter your Cluster name, it will be use for other resource names"
+    default: "HelloLogan"
+    required: true

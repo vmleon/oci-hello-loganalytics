@@ -27,7 +27,7 @@ Click on the new Log Group and copy its `OCID`.
 
 ### Enable access to Log Group with Instance Principal
 
-Create a Dynamic Group called `dynamic-group-oke-node-pool` that matches OKE node pool workers with matching rule `instance.compartment.id = '<compartment_ocid>'`
+Create a Dynamic Group called `dynamic-group-oke-node-pool` that matches OKE node pool workers with matching rule `All {instance.compartment.id = '<compartment_ocid>'`. You have to replace `<compartment_ocid>` for the compartment OCID where your Kubernetes Cluster is created.
 
 Create a policy to allow access to Log Group with the following rule:
 

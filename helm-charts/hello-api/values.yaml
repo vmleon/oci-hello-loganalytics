@@ -36,6 +36,9 @@ ingress:
   className: ""
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10Mbps"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "20Mbps"
     # kubernetes.io/tls-acme: "true"
     # https://github.com/oracle/oci-cloud-controller-manager
   hosts:

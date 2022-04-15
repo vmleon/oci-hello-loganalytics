@@ -9,6 +9,13 @@ This project is composed of:
 - **Work in Progress**: Query the logs in Logging Analytics
 - **Work in Progress**: Ingress controller with Load Balancer
 
+## TODO
+
+- Resource Manager package
+- Fix Ingress Controller
+- `oci_log_analytics_namespace_scheduled_tasks` purge Log Group on Destroy
+- Do we need parsers, entities, Sources specific for the hello-api app?
+
 ## Logging Analytics
 
 > Requirement: Logging Analytics enabled on the OCI Region.
@@ -81,16 +88,24 @@ Follow the steps on the `helm get notes hello-api` to port-forwarding on localho
 
 Test the application with `curl -s localhost:3000/hello`.
 
-## Check logs in Logging Analytics
 
-> WIP: Entities? Sources? on Logging Analytics?
-
-Create Entity
- - Entity Type: `Kubernetes Cluster`
- - Name: `dev-oke-entity`
- - Compartment: Same as Log Group
+## Search in Log Explorer
 
 Search:
 ```
 'Log Source' = 'Kubernetes Container Generic Logs' | stats count as logrecords by 'Log Source' | sort -logrecords
 ```
+
+## Destroy
+
+Before destroy you need to purge logs.
+
+Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+
+Go on the side menu to **Storage**.
+
+Click the red button **Purge Logs**.
+
+Select your Log Group Compartment.
+
+Click **Purge**.

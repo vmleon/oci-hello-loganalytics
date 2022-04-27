@@ -3,6 +3,7 @@
 This project is a OCI Logging Analytics "Hello World" with Kubernetes.
 
 This project is composed of:
+
 - Hello World API app in Node.js (no db connectivity)
 - Terraform scripts for Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
@@ -48,7 +49,7 @@ Create a policy to allow access to Log Group with the following rule:
 
 ## Build the app (optional)
 
->You can use the following image publicly available `fra.ocir.io/fruktknlrefu/hello-api:latest` or build your own image. Jump to next section if you are reusing the public image.
+> You can use the following image publicly available `fra.ocir.io/fruktknlrefu/hello-api:latest` or build your own image. Jump to next section if you are reusing the public image.
 
 Build the image yourself:
 
@@ -88,10 +89,10 @@ Follow the steps on the `helm get notes hello-api` to port-forwarding on localho
 
 Test the application with `curl -s localhost:3000/hello`.
 
-
 ## Search in Log Explorer
 
 Search:
+
 ```
 'Log Source' = 'Kubernetes Container Generic Logs' | stats count as logrecords by 'Log Source' | sort -logrecords
 ```
@@ -100,12 +101,23 @@ Search:
 
 Before destroy you need to purge logs.
 
-Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+> FIXME: Can it be done with terraform? Not apparently
 
-Go on the side menu to **Storage**.
+```
+oci log-analytics storage purge-storage-data \
+    -c $COMPARTMENT \
+    --namespace-name $(oci os ns get --query 'data' | tr -d '\"') \
+    --time-data-ended $(date -u +%FT%TZ)
+```
 
-Click the red button **Purge Logs**.
-
-Select your Log Group Compartment.
-
-Click **Purge**.
+> With Web Console:
+>
+> Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+>
+> Go on the side menu to **Storage**.
+>
+> Click the red button **Purge Logs**.
+>
+> Select your Log Group Compartment.
+>
+> Click **Purge**.

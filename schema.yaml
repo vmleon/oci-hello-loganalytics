@@ -11,9 +11,31 @@ locale: "en"
 variableGroups:
   - title: "Basic Hidden"
     variables:
+      - region
       - tenancy_ocid
       - current_user_ocid
-      - region
+      - fingerprint
+      - user_ocid
+      - cluster_kube_config_expiration
+      - cluster_kube_config_token_version
+      - private_key_path
+      - availability_domain
+      - cluster_endpoint_visibility
+      - cluster_options_add_ons_is_kubernetes_dashboard_enabled
+      - cluster_options_add_ons_is_tiller_enabled
+      - cluster_workers_visibility
+      - generate_public_ssh_key
+      - image_operating_system
+      - image_operating_system_version
+      - k8s_version
+      - network_cidrs
+      - node_pool_boot_volume_size_in_gbs
+      - node_pool_name
+      - node_pool_node_shape_config_memory_in_gbs
+      - node_pool_node_shape_config_ocpus
+      - node_pool_shape
+      - num_pool_workers
+      - public_ssh_key
     visible: false
   - title: "General Configuration"
     variables:

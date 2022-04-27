@@ -1,25 +1,19 @@
 variable "tenancy_ocid" {}
 
-variable "user_ocid" {}
-
 variable "current_user_ocid" {
   default = ""
 }
 
-variable "fingerprint" {}
-
-variable "private_key_path" {}
+variable "profile" {}
 
 variable "compartment_ocid" {}
 
 variable "region" {}
 
 provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.current_user_ocid != "" ? var.current_user_ocid : var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  region              = var.region
+  auth                = "SecurityToken"
+  config_file_profile = var.profile
 }
 
 provider "helm" {

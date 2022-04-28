@@ -17,6 +17,10 @@ This project is composed of:
 - `oci_log_analytics_namespace_scheduled_tasks` purge Log Group on Destroy
 - Do we need parsers, entities, Sources specific for the hello-api app?
 
+## Deploy from here
+
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.0/logan.zip)
+
 ## Logging Analytics
 
 > Requirement: Logging Analytics enabled on the OCI Region.

@@ -10,6 +10,7 @@ variableGroups:
     visible: false
     variables:
       - region
+      - profile
       - tenancy_ocid
       - current_user_ocid
       - cluster_kube_config_expiration

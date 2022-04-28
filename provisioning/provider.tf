@@ -4,13 +4,22 @@ variable "current_user_ocid" {
   default = ""
 }
 
-variable "profile" {}
+variable "profile" {
+  default = ""
+}
 
 variable "compartment_ocid" {}
 
 variable "region" {}
 
 provider "oci" {
+  region       = var.region
+  tenancy_ocid = var.tenancy_ocid
+  user_ocid    = var.current_user_ocid
+}
+
+provider "oci" {
+  alias               = "local"
   region              = var.region
   auth                = "SecurityToken"
   config_file_profile = var.profile

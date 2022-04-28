@@ -35,8 +35,9 @@ variableGroups:
   - title: "General Configuration"
     variables:
       - ${compartment_ocid}
-  - title: "Compute Details"
+  - title: "Stack Details"
     variables:
+      - ${app_name}
       - ${cluster_name}
 
 variables:
@@ -48,9 +49,18 @@ variables:
   cluster_name:
     type: string
     minLength: 3
-    maxLength: 255
+    maxLength: 128
     pattern: "^[a-z][a-zA-Z0-9]+$"
     title: "Cluster Name"
     description: "Enter your Cluster name, it will be use for other resource names"
-    default: "HelloLogan"
+    default: "hellologan"
+    required: true
+  app_name:
+    type: string
+    minLength: 3
+    maxLength: 128
+    pattern: "^[a-z][a-zA-Z0-9]+$"
+    title: "Cluster Name"
+    description: "Enter your Cluster name, it will be use for other resource names"
+    default: "hellologan"
     required: true

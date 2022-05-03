@@ -7,17 +7,20 @@ This project is composed of:
 - Hello World API app in Node.js (no db connectivity)
 - Terraform scripts for Oracle Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
-- **Work in Progress**: Improves Fluentd config
-- **Work in Progress**: Query the logs in Logging Analytics
-- **Work in Progress**: Ingress controller with Load Balancer
-- **Work in Progress**: Destroy fails
 
 ## TODO
 
+- Improves Fluentd config
+- Query the logs in Logging Analytics
+- Ingress controller with Load Balancer
+- Destroy fails
+- Add policies and Dynamic group
 - Fix Ingress Controller
 - Do we need parsers, entities, Sources specific for the hello-api app?
 
 ## Deploy from here
+
+> You need to be administrator, for now. Working on enumerating policies required as an alternative.
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.0/logan.zip)
 

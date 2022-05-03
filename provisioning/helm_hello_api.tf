@@ -2,9 +2,6 @@ resource "helm_release" "hello-api" {
   name              = "hello-api"
   chart             = "../helm-charts/hello-api"
   dependency_update = true
-  lifecycle {
-    prevent_destroy = true
-  }
 
   set {
     name  = "oci-la-fluentd.ociLANamespace"

@@ -3,6 +3,10 @@ resource "helm_release" "hello-api" {
   chart             = "../helm-charts/hello-api"
   dependency_update = true
 
+  lifecycle {
+    prevent_destroy = true
+  }
+
   set {
     name  = "oci-la-fluentd.ociLANamespace"
     value = lookup(data.oci_objectstorage_namespace.tenancy_namespace, "namespace")

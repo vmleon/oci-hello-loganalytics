@@ -71,9 +71,6 @@ resource "local_file" "oke_kubeconfig" {
   content         = data.oci_containerengine_cluster_kube_config.oke.content
   filename        = "${path.module}/generated/kubeconfig"
   file_permission = 0500
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 # Generate ssh keys to access Worker Nodes, if generate_public_ssh_key=true, applies to the pool

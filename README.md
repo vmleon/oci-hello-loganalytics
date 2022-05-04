@@ -83,7 +83,9 @@ Go to **Menu** > **Developer Services** > **Resource Manager** > **Stacks**.
 
 Click on your stack.
 
-Click on `Destroy`.
+Open **Show Advanced Options** and disable **Refresh Resource States Before Checking For Differences**.
+
+Then confirm by clicking on `Destroy`.
 
 ## Build the app (optional)
 

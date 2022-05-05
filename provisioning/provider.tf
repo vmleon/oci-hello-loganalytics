@@ -18,13 +18,6 @@ provider "oci" {
   user_ocid    = var.current_user_ocid
 }
 
-provider "oci" {
-  alias               = "local"
-  region              = var.region
-  auth                = "SecurityToken"
-  config_file_profile = var.profile
-}
-
 provider "helm" {
   kubernetes {
     host                   = local.cluster_endpoint

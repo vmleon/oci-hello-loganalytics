@@ -10,23 +10,14 @@ This project is composed of:
 
 ## TODO
 
-- Improves Fluentd config
 - Query the logs in Logging Analytics
 - Ingress controller with Load Balancer
-- Destroy fails
 - Add policies and Dynamic group
 - Fix Ingress Controller
-- Do we need parsers, entities, Sources specific for the hello-api app?
-
-## Deploy from here
-
-> You need to be administrator, for now. Working on enumerating policies required as an alternative.
-
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.1/logan.zip)
 
 ## Enable access to Log Group with Instance Principal
 
-> Requirement: Logging Analytics enabled on the OCI Region.
+> Requirement: Logging Analytics enabled on the OCI Region ([Quick Start](https://docs.oracle.com/en/cloud/paas/logging-analytics/logqs/)).
 
 Create a Dynamic Group called `dynamic-group-oke-node-pool` that matches OKE node pool workers with matching rule:
 
@@ -40,19 +31,73 @@ Create a policy to allow access to Log Group with the following rule:
 
 `Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <Logging Analytics LogGroup's compartment_name>`
 
-## Logging Analytics Log Explorer
+## Logging Analytics
 
-Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Log Explorer**.
+Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+
+### Create Parser
+
+On the side menu, click **Parsers**.
+
+Click **Create Parser**, then click **JSON Type** and fill the form with the following information:
+
+- Name: `hello-api-parser`
+- Description: `Hello API App Parser`
+- Example Log Content: `{"level":"http","message":"HTTP GET /hello","meta":{"req":{"headers":{"accept":"*/*","host":"localhost:3000","user-agent":"curl/7.79.1"},"httpVersion":"1.1","method":"GET","originalUrl":"/hello","query":{},"url":"/hello"},"res":{"statusCode":200},"responseTime":0}}`
+
+The Fields should look like this:
+
+![OCI Log Analytics Parser Fields](images/logan-parser-fields.png)
+
+Click `Create Parser` to confirm.
+
+### Create Source
+
+On the side menu, click **Sources**.
+
+Click **Create Source** and fill the form with the following information:
+
+- Name: `hello-api-source`
+- Description: `Hello API App Source`
+- Source Type: `File`
+- Entity Types: `OCI Compute Instance`
+- Parser: `Specific Parser` and select `hello-api-parser`
+
+Click `Create Source` to confirm.
+
+## Deploy from here
+
+> You need to be administrator, for now. Working on enumerating policies required as an option.
+
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.1/logan.zip)
+
+When successfully deployed you can run some tests and go to Log Analytics to work with the generated logs.
 
 ## Manual Test Application
 
-List the helm release with `helm list`.
+> Requirements
+>
+> - Terraform installed
+> - OCI CLI configured
+> - Helm installed
+> - Docker/Podman installed
 
-Follow the steps on the `helm get notes hello-api` to port-forwarding on localhost.
+If deployed from your local machine, you can run `export KUBECONFIG=$(pwd)/generated/kubeconfig` from the `provisioning` folder.
+
+With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubernetes worker nodes and list the helm releases with `helm list`.
+
+Create a port forward (only if you deploy on the local terminal):
+
+```
+kubectl port-forward service/hello-api 3000:3000
+```
 
 > WIP: Include ingress-nginx-controller
 
-Test the application with `curl -s localhost:3000/hello`.
+You have two options to generate some workload and therefore logs to be explored with Logging Analytics.
+
+- Option 1: `podman run -i grafana/k6 run - <load/test.js`
+- Option 2: Run a bunch of `curl -s localhost:3000/hello`.
 
 ## Destroy
 
@@ -86,6 +131,14 @@ Click on your stack.
 Open **Show Advanced Options** and disable **Refresh Resource States Before Checking For Differences**.
 
 Then confirm by clicking on `Destroy`.
+
+Finally run:
+
+> FIXME: refresh false because error with `helm_release`
+
+```
+terraform destroy --refresh=false
+```
 
 ## Build the app (optional)
 

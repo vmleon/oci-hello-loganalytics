@@ -4,6 +4,6 @@ dependencies:
   version: 4.0.19
 - name: oci-la-fluentd
   repository: file://dependencies/oci-la-fluentd
-  version: 1.0.1
-digest: sha256:e950b0221fedf92a0f1554f624e4fe274e006959fc320f3067a12f43f98d743d
-generated: "2022-04-10T00:51:29.479173+01:00"
+  version: 1.0.2
+digest: sha256:c9ed0f0e29f2b1293a42661191941518ec4e56a728368ea42194690eb847a37b
+generated: "2022-05-05T18:01:27.588817+02:00"

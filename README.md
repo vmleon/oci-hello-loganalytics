@@ -27,7 +27,9 @@ All {instance.compartment.id = '<compartment_ocid>'
 
 Create a policy to allow access to Log Group with the following rule:
 
-`Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <Logging Analytics LogGroup's compartment_name>`
+```
+Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <Logging Analytics LogGroup's compartment_name>
+```
 
 ## Logging Analytics
 
@@ -66,6 +68,12 @@ Click `Create Source` to confirm.
 ## Deploy from here
 
 > You need to be administrator, for now. Working on enumerating policies required as an option.
+>
+> Policies:
+>
+> - `Allow group group_name to inspect instance-family in tenancy`
+> - [Preparing for Container Engine for Kubernetes](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengprerequisites.htm#Preparing_for_Container_Engine_for_Kubernetes)
+> - [Create Required Policy for Groups for Kubernetes](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpolicyconfig.htm#policyforgroupsrequired)
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.2/logan.zip)
 
@@ -111,26 +119,21 @@ You have two options to generate some workload and therefore logs to be explored
 
 Before destroy you need to purge logs.
 
-> FIXME: Can it be done with terraform? Not apparently
+With Web Console:
+Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
+Go on the side menu to **Storage**.
+Click the red button **Purge Logs**.
+Select your Log Group Compartment.
+Click **Purge**.
 
-```
-oci log-analytics storage purge-storage-data \
-    -c $COMPARTMENT \
-    --namespace-name $(oci os ns get --query 'data' | tr -d '\"') \
-    --time-data-ended $(date -u +%FT%TZ)
-```
-
-> With Web Console:
+> Wit the OCI CLI (Terminal):
 >
-> Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
->
-> Go on the side menu to **Storage**.
->
-> Click the red button **Purge Logs**.
->
-> Select your Log Group Compartment.
->
-> Click **Purge**.
+> ```
+> oci log-analytics storage purge-storage-data \
+>     -c $COMPARTMENT \
+>     --namespace-name $(oci os ns get --query 'data' | tr -d '\"') \
+>     --time-data-ended $(date -u +%FT%TZ)
+> ```
 
 Go to **Menu** > **Developer Services** > **Resource Manager** > **Stacks**.
 

@@ -11,9 +11,7 @@ This project is composed of:
 ## TODO
 
 - Query the logs in Logging Analytics
-- Ingress controller with Load Balancer
 - Add policies and Dynamic group
-- Fix Ingress Controller
 
 ## Enable access to Log Group with Instance Principal
 
@@ -86,18 +84,28 @@ If deployed from your local machine, you can run `export KUBECONFIG=$(pwd)/gener
 
 With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubernetes worker nodes and list the helm releases with `helm list`.
 
-Create a port forward (only if you deploy on the local terminal):
+Get the public IP of the load balancer:
+
+Go to **Menu** > **Networking** > **Load Balancers** > **Administration**.
+
+![Load Balancer Public IP](images/loadbalancer-public-ip.png)
+
+Get the Public IP from the column:
 
 ```
-kubectl port-forward service/hello-api 3000:3000
+export LB_PUBLIC_IP=<VALUE_FROM_UI>
 ```
 
-> WIP: Include ingress-nginx-controller
+> If you are deploying from your local terminal:
+>
+> ```
+> export LB_PUBLIC_IP=$(kubectl get services -o jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
+> ```
 
 You have two options to generate some workload and therefore logs to be explored with Logging Analytics.
 
-- Option 1: `podman run -i grafana/k6 run - <load/test.js`
-- Option 2: Run a bunch of `curl -s localhost:3000/hello`.
+- Option 1: `podman run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
+- Option 2: Run a bunch of `curl -s http://$LB_PUBLIC_IP/hello`.
 
 ## Destroy
 

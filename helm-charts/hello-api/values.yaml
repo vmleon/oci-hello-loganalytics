@@ -44,11 +44,16 @@ ingress:
     service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "20Mbps"
     # kubernetes.io/tls-acme: "true"
     # https://github.com/oracle/oci-cloud-controller-manager
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-api
+                port:
+                  number: 3000
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

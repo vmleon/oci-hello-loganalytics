@@ -8,6 +8,8 @@ This project is composed of:
 - Terraform scripts for Oracle Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
 
+Find the [Presentation](https://vmleon.github.io/oci-hello-loganalytics/) I use in events.
+
 ## TODO
 
 - Query the logs in Logging Analytics

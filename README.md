@@ -77,16 +77,21 @@ Click `Create Source` to confirm.
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.2/logan.zip)
 
+Review and Check the Terms. The web form will populate automatically.
+
+Click **Next**.
+
+On the next screen, make sure you select the compartment where you want to deploy the stack.
+
+Click **Next**.
+
+On the final screen, review the information and make sure **Run Apply** is checked.
+
+Click **Create**.
+
 When successfully deployed you can run some tests and go to Log Analytics to work with the generated logs.
 
 ## Manual Test Application
-
-> Requirements
->
-> - Terraform installed
-> - OCI CLI configured
-> - Helm installed
-> - Docker/Podman installed
 
 If deployed from your local machine, you can run `export KUBECONFIG=$(pwd)/generated/kubeconfig` from the `provisioning` folder.
 
@@ -94,7 +99,7 @@ With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubern
 
 Get the public IP of the load balancer:
 
-Go to **Menu** > **Networking** > **Load Balancers** > **Administration**.
+Go to **Menu** > **Networking** > **Load Balancers**.
 
 ![Load Balancer Public IP](images/loadbalancer-public-ip.png)
 
@@ -114,6 +119,20 @@ You have two options to generate some workload and therefore logs to be explored
 
 - Option 1: `podman run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
 - Option 2: Run a bunch of `curl -s http://$LB_PUBLIC_IP/hello`.
+
+## Search your Logs
+
+Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Log Explorer**.
+
+On the filter menu on the left, click on **Log source** and select `hello-api-source`.
+
+![Log Explorer Source Selection](images/log-explorer-source-selection.png)
+
+Select Records and Histograms as visualization.
+
+![Log Explorer Visualization](images/log-explorer-viz.png)
+
+> TODO Generate some errors and search logs with those errors.
 
 ## Destroy
 

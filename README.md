@@ -12,8 +12,7 @@ Find the [Presentation](https://vmleon.github.io/oci-hello-loganalytics/) I use 
 
 ## TODO
 
-- Query the logs in Logging Analytics
-- Add policies and Dynamic group
+- Create Dashboard from several Queries.
 
 ## Enable access to Log Group with Instance Principal
 
@@ -77,7 +76,7 @@ Click `Create Source` to confirm.
 > - [Preparing for Container Engine for Kubernetes](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengprerequisites.htm#Preparing_for_Container_Engine_for_Kubernetes)
 > - [Create Required Policy for Groups for Kubernetes](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpolicyconfig.htm#policyforgroupsrequired)
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.3/logan.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/vmleon/oci-hello-loganalytics/releases/download/v0.1.4/logan.zip)
 
 Review and Check the Terms. The web form will populate automatically.
 
@@ -122,6 +121,12 @@ You have two options to generate some workload and therefore logs to be explored
 - Option 1: `podman run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
 - Option 2: Run a bunch of `curl -s http://$LB_PUBLIC_IP/hello`.
 
+Try to generate an error
+
+`curl -s http://$LB_PUBLIC_IP/nofound`
+
+Can you see it in Log Explorer? Continue to know more...
+
 ## Search your Logs
 
 Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Log Explorer**.
@@ -134,7 +139,13 @@ Select Records and Histograms as visualization.
 
 ![Log Explorer Visualization](images/log-explorer-viz.png)
 
-> TODO Generate some errors and search logs with those errors.
+Try out this query in Log Explorer
+
+```
+'404' and 'Log Source' = 'hello-api-source' | timestats count as logrecords by 'Log Source' | sort -logrecords
+```
+
+You will see the log errors `404` you generated with the `/notfound` path.
 
 ## Destroy
 

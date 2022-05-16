@@ -101,42 +101,98 @@ Terraform initizate:
 terraform init
 ```
 
+Before we apply the infrastructure with terraform, we need to set some variables.
+
+Let's start with copy the template variable file:
+
+```
+cp terraform.tfvars_template terraform.tfvars
+```
+
+Get the values from running these commands
+
+Region:
+
+```
+echo $OCI_REGION
+```
+
+Tenancy for `tenancy_ocid`:
+
+```
+echo $OCI_TENANCY
+```
+
+If using the root compartment (trials) for `compartment_ocid` set the tenancy as well, otherwise, use the specific OCID compartment:
+
+> What to search for a specific compartment id by name? Replace `<COMPARTMENT_NAME>` by the name.
+> ```
+> oci iam compartment list \
+>   --all \
+>   --compartment-id-in-subtree true \
+>   --query 'data[0].id' \
+>   --name <COMPARTMENT_NAME>`
+> ```
+
+```
+echo $OCI_TENANCY
+```
+
+Edit the file with `vim`:
+
+```
+vim terraform.tfvars
+```
+
+> NOTE: You can leave empty the `profile` property
+
 Terraform apply:
 
 ```
 terraform apply -auto-approve
 ```
 
-## Manual Test Application
+After 10 to 15 minutes the resources should be created.
 
-If deployed from your local machine, you can run `export KUBECONFIG=$(pwd)/generated/kubeconfig` from the `provisioning` folder.
-
-With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubernetes worker nodes and list the helm releases with `helm list`.
-
-Get the public IP of the load balancer:
-
-Go to **Menu** > **Networking** > **Load Balancers**.
-
-![Load Balancer Public IP](images/loadbalancer-public-ip.png)
-
-Get the Public IP from the column:
+You will see something like this:
 
 ```
-export LB_PUBLIC_IP=<VALUE_FROM_UI>
+Apply complete! Resources: 19 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+deployed_oke_kubernetes_version = "v1.22.5"
+generated_private_key_pem = <sensitive>
+kubeconfig_for_kubectl = "export KUBECONFIG=$(pwd)/generated/kubeconfig"
 ```
 
-> If you are deploying from your local terminal:
->
-> ```
-> export LB_PUBLIC_IP=$(kubectl get services -o jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
-> ```
+Run that last command:
+
+```
+export KUBECONFIG=$(pwd)/generated/kubeconfig
+```
+
+## Manual Application Testing
+
+With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubernetes worker nodes.
+
+You can also list the helm app installed with:
+
+```
+helm list
+```
+
+Get the public IP of the load balancer into the variable `LB_PUBLIC_IP`:
+
+```
+export LB_PUBLIC_IP=$(kubectl get services -o jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
+```
 
 You have two options to generate some workload and therefore logs to be explored with Logging Analytics.
 
-> Use `podman` as an alternative if you don't have `docker`.
-
-- Option 1: `docker run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
-- Option 2: Run a bunch of `curl -s http://$LB_PUBLIC_IP/hello`.
+```
+docker run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <../load/test.js
+```
 
 Try to generate an error
 

@@ -1,18 +1,16 @@
 # OCI Kubernetes and Logging Analytics
 
-This project is an OCI Logging Analytics "Hello World" with Kubernetes.
+This project is an OCI Logging Analytics "Hello World" with OCI Kubernetes.
 
 This project is composed of:
 
-- Hello World API app in Node.js (no db connectivity)
+- Hello World API app in Node.js (no db connectivity yet)
 - Terraform scripts for Oracle Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
 
-Find the [Presentation](https://vmleon.github.io/oci-hello-loganalytics/) I use in events.
-
 ## TODO
 
-- Create Dashboard from several Queries.
+- OCI Logging Analytics on-boarding within the terraform script.
 
 ## Enable access to Log Group with Instance Principal
 
@@ -36,22 +34,6 @@ Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLO
 
 Go to **Menu** > **Observability & Management** > **Logging Analytics** > **Administration**.
 
-### Create Parser
-
-On the side menu, click **Parsers**.
-
-Click **Create Parser**, then click **JSON Type** and fill the form with the following information:
-
-- Name: `hello-api-parser`
-- Description: `Hello API App Parser`
-- Example Log Content: `{"level":"http","message":"HTTP GET /hello","meta":{"req":{"headers":{"accept":"*/*","host":"localhost:3000","user-agent":"curl/7.79.1"},"httpVersion":"1.1","method":"GET","originalUrl":"/hello","query":{},"url":"/hello"},"res":{"statusCode":200},"responseTime":0}}`
-
-The Fields should look like this:
-
-![OCI Log Analytics Parser Fields](images/logan-parser-fields.png)
-
-Click `Create Parser` to confirm.
-
 ### Create Source
 
 On the side menu, click **Sources**.
@@ -62,9 +44,11 @@ Click **Create Source** and fill the form with the following information:
 - Description: `Hello API App Source`
 - Source Type: `File`
 - Entity Types: `OCI Compute Instance`
-- Parser: `Specific Parser` and select `hello-api-parser`
+- Parser: `Automatically parse time only`
 
 Click `Create Source` to confirm.
+
+<!--
 
 ## Deploy from here
 
@@ -91,6 +75,37 @@ On the final screen, review the information and make sure **Run Apply** is check
 Click **Create**.
 
 When successfully deployed you can run some tests and go to Log Analytics to work with the generated logs.
+-->
+
+## Deploy
+
+Go to OCI Web Console and open Cloud Shell.
+
+![Cloud Shell](images/cloud-shell.png)
+
+Clone this repository with:
+
+```
+git clone https://github.com/vmleon/oci-hello-loganalytics.git
+```
+
+Change directory to `oci-hello-loganalytics/provisioning`:
+
+```
+cd oci-hello-loganalytics/provisioning
+```
+
+Terraform initizate:
+
+```
+terraform init
+```
+
+Terraform apply:
+
+```
+terraform apply -auto-approve
+```
 
 ## Manual Test Application
 
@@ -118,7 +133,9 @@ export LB_PUBLIC_IP=<VALUE_FROM_UI>
 
 You have two options to generate some workload and therefore logs to be explored with Logging Analytics.
 
-- Option 1: `podman run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
+> Use `podman` as an alternative if you don't have `docker`.
+
+- Option 1: `docker run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <load/test.js`
 - Option 2: Run a bunch of `curl -s http://$LB_PUBLIC_IP/hello`.
 
 Try to generate an error

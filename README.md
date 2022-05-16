@@ -131,7 +131,7 @@ If using the root compartment (trials) for `compartment_ocid` set the tenancy as
 >   --all \
 >   --compartment-id-in-subtree true \
 >   --query 'data[0].id' \
->   --name <COMPARTMENT_NAME>`
+>   --name <COMPARTMENT_NAME>
 > ```
 
 ```
@@ -235,9 +235,9 @@ Click **Purge**.
 >
 > ```
 > oci log-analytics storage purge-storage-data \
->     -c $COMPARTMENT \
 >     --namespace-name $(oci os ns get --query 'data' | tr -d '\"') \
->     --time-data-ended $(date -u +%FT%TZ)
+>     --time-data-ended $(date -u +%FT%TZ) \
+>     -c $COMPARTMENT
 > ```
 
 Go to **Menu** > **Developer Services** > **Resource Manager** > **Stacks**.

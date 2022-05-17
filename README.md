@@ -178,7 +178,19 @@ export KUBECONFIG=$(pwd)/generated/kubeconfig
 
 ## Manual Application Testing
 
-With the `KUBECONFIG` exported you can use `kubectl get nodes` to get the Kubernetes worker nodes.
+With the `KUBECONFIG` exported you can use `kubectl` to get some information
+
+Kubernetes Nodes:
+
+```
+kubectl get nodes
+```
+
+Kubernetes services:
+
+```
+kubectl get services
+```
 
 You can also list the helm app installed with:
 

@@ -253,8 +253,10 @@ Finally run:
 > FIXME: refresh false because error with `helm_release`
 
 ```
-terraform destroy --refresh=false
+terraform destroy --refresh=false -auto-approve
 ```
+
+After few minutes you will see that the resources has been destroy.
 
 ## Build the app (optional)
 

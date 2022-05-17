@@ -18,15 +18,15 @@ This project is composed of:
 Create a Dynamic Group called `dynamic-group-oke-node-pool` that matches OKE node pool workers with matching rule:
 
 ```
-All {instance.compartment.id = '<compartment_ocid>'
+All {instance.compartment = '<COMPARTMENT_NAME>'}
 ```
 
-> You have to replace `<compartment_ocid>` for the compartment OCID where your Kubernetes Cluster is created.
+> You have to replace `<COMPARTMENT_NAME>` for the compartment name where your Kubernetes Cluster is going to be created.
 
 Create a policy to allow access to Log Group with the following rule:
 
 ```
-Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <Logging Analytics LogGroup's compartment_name>
+Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <COMPARTMENT_NAME>
 ```
 
 ## Logging Analytics
@@ -108,7 +108,7 @@ Let's start with copy the template variable file:
 cp terraform.tfvars_template terraform.tfvars
 ```
 
-Get the values from running these commands
+Get the values and copy them aside from running these commands
 
 Region:
 
@@ -116,15 +116,15 @@ Region:
 echo $OCI_REGION
 ```
 
-Tenancy for `tenancy_ocid`:
+Tenancy:
 
 ```
 echo $OCI_TENANCY
 ```
 
-If using the root compartment (trials) for `compartment_ocid` set the tenancy as well, otherwise, use the specific OCID compartment:
-
-> What to search for a specific compartment id by name? Replace `<COMPARTMENT_NAME>` by the name.
+> If using the root compartment (trials) for `compartment_ocid` set the `OCI_TENANCY` value as well, otherwise, use the specific OCID compartment:
+> 
+> Do you want to search for a specific compartment by name? Use the following command and replace `<COMPARTMENT_NAME>` by the name of the compartment.
 > ```
 > oci iam compartment list \
 >   --all \
@@ -133,25 +133,30 @@ If using the root compartment (trials) for `compartment_ocid` set the tenancy as
 >   --name <COMPARTMENT_NAME>
 > ```
 
-```
-echo $OCI_TENANCY
-```
-
 Edit the file with `vim`:
+
+> NOTE: You can leave empty the `profile` property
 
 ```
 vim terraform.tfvars
 ```
 
-> NOTE: You can leave empty the `profile` property
+An example of the final result would be:
 
-Terraform apply:
+```
+region = "eu-frankfurt-1"
+tenancy_ocid = "ocid1.tenancy.oc1..aaa............."
+compartment_ocid = "ocid1.compartment.oc1..aaa.............""
+profile = ""
+```
+
+Run the Terraform apply:
 
 ```
 terraform apply -auto-approve
 ```
 
-After 10 to 15 minutes the resources should be created.
+After 10 to 20 minutes the resources should be created.
 
 You will see something like this:
 
@@ -181,23 +186,31 @@ You can also list the helm app installed with:
 helm list
 ```
 
+Make sure the application `hello-api` is successfully deployed.
+
 Get the public IP of the load balancer into the variable `LB_PUBLIC_IP`:
 
 ```
 export LB_PUBLIC_IP=$(kubectl get services -o jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
 ```
 
-You have two options to generate some workload and therefore logs to be explored with Logging Analytics.
+Print the IP, it should return a valid public IP address.
+
+```
+echo $LB_PUBLIC_IP
+```
+
+You are going to generate some workload and therefore logs to be explored with Logging Analytics. We are using a tool called [k6.oi](https://k6.io/) run in a container locally.
 
 ```
 docker run -i grafana/k6 run -e LB_PUBLIC_IP=$LB_PUBLIC_IP - <../load/test.js
 ```
 
-Try to generate an error
+Finally, generate an error with this `curl` command on an endpoint that doesn't exist.
 
-`curl -s http://$LB_PUBLIC_IP/nofound`
-
-Can you see it in Log Explorer? Continue to know more...
+```
+curl -s http://$LB_PUBLIC_IP/nofound
+```
 
 ## Search your Logs
 
@@ -257,6 +270,7 @@ terraform destroy --refresh=false -auto-approve
 
 After few minutes you will see that the resources has been destroy.
 
+<!--
 ## Build the app (optional)
 
 > You can use the following image publicly available `fra.ocir.io/fruktknlrefu/hello-api:latest` or build your own image. Jump to next section if you are reusing the public image.
@@ -270,3 +284,4 @@ Tag the image `podman tag hello-api:latest fra.ocir.io/TENANCY_NAMESPACE/hello-a
 Login the image registry with `podman login fra.ocir.io`. User is `TENANCY_NAMESPACE/YOUR_EMAIL` and the password is the Auth Token you can create for your user.
 
 Push the image `podman push fra.ocir.io/TENANCY_NAMESPACE/hello-api:latest`.
+-->

@@ -8,9 +8,8 @@ This project is composed of:
 - Terraform scripts for Oracle Kubernetes Engine
 - Deployment manifest for app with terraform helm_release.
 
-## TODO
-
-- OCI Logging Analytics on-boarding within the terraform script.
+> **Work in Progress**
+> - OCI Logging Analytics on-boarding within the terraform script.
 
 ## Enable access to Log Group with Instance Principal
 

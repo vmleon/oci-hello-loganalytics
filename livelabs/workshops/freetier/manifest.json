@@ -1,0 +1,42 @@
+{
+  "workshoptitle": "Manage your Cloud Native Apps with OCI Observability & Management",
+  "help": "livelabs-help-db_us@oracle.com",
+  "tutorials": [
+    {
+      "title": "Introduction",
+      "description": "Introduction Observability and management platform",
+      "filename": "../../intro/intro.md"
+    },
+    {
+      "title": "Getting Started",
+      "description": "This is the prerequisites for customers using Free Trial and Paid tenancies, and Always Free accounts (if applicable). The title of the lab and the Contents Menu title (the title above) match for Prerequisite lab. This lab is always first.",
+      "filename": "https://raw.githubusercontent.com/oracle/learning-library/master/common/labs/cloud-login/pre-register-free-tier-account.md"
+    },
+    {
+      "title": "Lab 1: Infrastructure Configuration",
+      "filename": "../../infrastructure/infrastructure.md"
+    },
+    {
+      "title": "Lab 2: Logging Analytics & Logging",
+      "filename": "../../logana/logana.md"
+    },
+    {
+      "title": "Lab 3: DB Management & Ops. Insights",
+      "filename": "../../dbmngt/dbmngt.md"
+    },
+    {
+      "title": "Lab 4: Monitoring",
+      "filename": "../../monitor/monitor.md"
+    },
+    {
+      "title": "Lab 5: Outage Simulation",
+      "filename": "../../simulation/simulation.md"
+    },
+    
+    {
+      "title": "Need Help?",
+      "description": "Solutions to Common Problems and Directions for Receiving Live Help",
+      "filename": "https://raw.githubusercontent.com/oracle/learning-library/master/common/labs/need-help/need-help-freetier.md"
+    }
+  ]
+}

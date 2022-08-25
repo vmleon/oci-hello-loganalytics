@@ -1,15 +1,15 @@
-# Monitoring
+# Outage Simulation
 
 ## Introduction
 
-In this lab we will unleash the capabilites of  and review aggregated data in a dashboard and explore the available logs in the Log Explorer. 
+This step showcases the a load file deployed to the application which will create a sudden increase in the API server request and we will see how the alarms firing works and we will notice the change in the dashboards.
 
 Estimated Time: X minutes
 
 ### Objectives
 
 In this lab, you will:
-- simulate workload
+- Simulate An Error
 
 
 ## Task 1: Create Load
@@ -34,7 +34,7 @@ In this lab, you will:
 
     ![](images/editdashboard.png)
 
-## Task 3: Check firing Alarms
+## Task 3: Check Firing Alarms
 
 - From the Menu select **O&M > Monitoring > Alarm Status**
 ![](images/alarm.png)

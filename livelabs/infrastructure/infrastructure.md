@@ -34,10 +34,7 @@ In this lab, you will:
 
 ## Task 2: Create a Dynamic Group and Set the Required Policies
 
-  - To set some policies we will have to first create a Dynamic Group, we will need a compartment id, which you can find at **Identity & Security > Compartment** copy Compartment ocid and  save it on a separate text file for later,
-  ![](images/compartment.png)
-
- - Now go back to the menu on the left top side and choose **_Identity & Security_**, then **Domains > Dynamic Groups**
+  - To set some policies we will have to first create a Dynamic Group, go to the menu on the left top side and choose **_Identity & Security_**, then **Domains > Dynamic Groups**
 
   ![](images/menu-1.png)
   ![](images/domains.png)
@@ -60,12 +57,12 @@ In this lab, you will:
   
     ```
     <copy>
-    Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in compartment <COMPARTMENT_NAME>  
+    Allow dynamic-group dynamic-group-oke-node-pool to {LOG_ANALYTICS_LOG_GROUP_UPLOAD_LOGS} in tenancy  
     </copy>
     ```
     ```
     <copy>
-    Allow dynamic-group <DynamicGroupName> to use log-content in tenancy
+    Allow dynamic-group dynamic-group-oke-node-pool to use log-content in tenancy
     </copy>
     ```
   ![](images/policycreate.png)
@@ -138,7 +135,18 @@ In this lab, you will:
     </copy>
     ```
     ![](images/cptf.png)
-  - Get the values and copy them aside from running these commands
+  - Open Code Editor to edit the **terraform.tfvars** file 
+   ![](images/codeeditor.png)
+
+  - To open the terraform.tfvars file, click File> Open, then edit the file path and add the following to the path
+  ```
+  <copy>
+  /oci-hello-loganalytics/provisioning/terraform.tfvars
+  </copy>
+  ```
+   ![](images/codeeditor2.png)
+
+ - From the cloud shel we need to get some  values and copy them to the code editor
 
     Region:
     ```
@@ -152,10 +160,11 @@ In this lab, you will:
     echo $OCI_TENANCY
     </copy>
     ```
-    ![](images/savetenancy.png)
-  If using the root compartment (trials) for compartment_ocid set the OCI_TENANCY value as well, otherwise, use the specific OCID compartment:
+   ![](images/codeeditor3.png)
 
-  - We need again the Compartment ocid that we saved earlier in task1, if you haven't save it you can find in from cloud shell as follows, replace <COMPARTMENT_NAME> by the name of the compartment.
+   If using the root compartment (trials) for compartment_ocid set the OCI_TENANCY value as well, otherwise, use the specific OCID compartment:
+
+  - If you aren't using the root compartment you can find Compartment ocid in from cloud shell as follows, replace <COMPARTMENT_NAME> by the name of the compartment.
 
     ```
     <copy>
@@ -166,27 +175,12 @@ In this lab, you will:
       --name <COMPARTMENT_NAME>
     </copy>
     ```
- - Edit the file with vim:
 
     NOTE: You can leave empty the profile property
 
-    ```
-    <copy>
-      vim terraform.tfvars
-    </copy> 
-    ```
-    ![](images/tfplain.png)
- - An example of the final result would be:
+  - Finally, save the changes 
+   ![](images/codeeditor4.png)
   
-    ```
-    <copy>
-      region = "eu-frankfurt-1"
-      tenancy_ocid = "ocid1.tenancy.oc1..aaa............."
-      compartment_ocid = "ocid1.compartment.oc1..aaa.............""
-      profile = ""
-    </copy>
-    ```
-    ![](images/tfinfo.png)
  - Run the Terraform apply:
     ```
     <copy>
@@ -197,17 +191,7 @@ In this lab, you will:
 
  You will see something like this:
 
-    ```
-    <copy>
-      Apply complete! Resources: 19 added, 0 changed, 0 destroyed.
-
-      Outputs:
-
-      deployed_oke_kubernetes_version = "v1.22.5"
-      generated_private_key_pem = <sensitive>
-      kubeconfig_for_kubectl = "export KUBECONFIG=$(pwd)/generated/kubeconfig"
-    </copy>
-    ```
+  ![](images/terraformcomplete.png)
 
 - Run that last command:
 
@@ -219,7 +203,7 @@ In this lab, you will:
 
     ![](images/kubeconf.png)
 
-  Well done, you can now proceed to the next lab!
+  Well done, you can now proceed to the **[next lab!](../logana/logana.md)**
 
 ## **Acknowledgements**
   - **Author** - Rawan Aboukoura - Technology Product Strategy Manager, Victor Martin - Technology Product Strategy Manager 

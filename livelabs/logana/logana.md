@@ -3,6 +3,8 @@
 ## Introduction
 
 In this lab we will unleash the capabilites of Logging Analytics and review aggregated data in a dashboard and explore the available logs in the Log Explorer. 
+Oracle Cloud Logging Analytics is a cloud solution in Oracle Cloud Infrastructure that lets you index, enrich, aggregate, explore, search, analyze, correlate, visualize and monitor all log data from your applications and system infrastructure.
+We will also ingest the application logs into logging service which is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. 
 
 Estimated Time: X minutes
 
@@ -22,12 +24,14 @@ In this lab, you will:
   - With the **_KUBECONFIG_** exported you can use **_kubectl_** to get some information
 
    Kubernetes Nodes:
+
     ```
     <copy>
       kubectl get nodes
     </copy>
     ```
   ![](images/getnodesCS.png)
+    
     Kubernetes services:
 
     ```
@@ -52,14 +56,14 @@ In this lab, you will:
     export LB_PUBLIC_IP=$(kubectl get services -o jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
     </copy>
     ```
-    ![](./images/exportCS.png)
+   ![](./images/exportCS.png)
   - Print the IP, it should return a valid public IP address.
     ```
     <copy>
       echo $LB_PUBLIC_IP
     </copy>
     ```
-  ![](images/echoCS.png)
+    ![](images/echoCS.png)
   - You are going to generate some workload and therefore logs to be explored with Logging Analytics. We are using a tool called k6.oi run in a container locally.
     ```
     <copy>
@@ -75,7 +79,9 @@ In this lab, you will:
     curl -s http://$LB_PUBLIC_IP/nofound
     </copy>
     ```
-    ![](images/curl.png)
+
+  ![](./images/curlimage.png)
+
 ## Task 2: Review the Collected Logs in the Log Explorer 
 
   - Let's start discover some of the Logging Analytics capabilities, go to **Menu > Observability & Management > Logging Analytics > Log Explorer**
@@ -270,7 +276,7 @@ In this lab, you will:
 
     ```
     ![](images/customlog2.png)
-  - To create Agent Configuration enter the following inormation:
+  - To create Agent Configuration enter the following information:
     ```
       Configuration Name: <ConfigurationName>
       Compartment: <SelectCompartment>
@@ -291,7 +297,7 @@ In this lab, you will:
     ![](images/customlog3.png)
   - Navigate to **Logging > Search**, you will the logs are ingested and you can **Save search** and explore the logs further
     ![](images/loggingsearch.png)
-  Well done, you can now proceed to the next lab!
+  Well done, you can now proceed to the **[next lab!](../dbmngt/dbmngt.md)**
 
 ## **Acknowledgements**
   - **Author** - Rawan Aboukoura - Technology Product Strategy Manager, Victor Martin - Technology Product Strategy Manager 
